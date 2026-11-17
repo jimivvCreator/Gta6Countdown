@@ -2,270 +2,782 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="theme-color" content="#100b25">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <title>GTA 6 Countdown – How Long Until GTA VI?</title>
-  <meta name="description" content="Countdown to Grand Theft Auto VI! See exactly how many days, hours, minutes and seconds remain until GTA 6 launches on November 19, 2026.">
-  <meta name="keywords" content="GTA 6 countdown, GTA VI release date, Grand Theft Auto 6, GTA 6 release, Vice City">
-  <meta property="og:title" content="GTA 6 Countdown">
-  <meta property="og:description" content="The wait is almost over. Count down to GTA VI!">
-  <meta property="og:type" content="website">
+    <meta name="theme-color" content="#08070d">
+    <meta name="description" content="The ultimate GTA VI countdown. The wait is almost over.">
 
-  <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
+    <title>GTA VI — The Countdown</title>
 
-    body {
-      min-height: 100vh;
-      font-family: Arial, Helvetica, sans-serif;
-      color: white;
-      background:
-        radial-gradient(ellipse at 50% 85%, #ff4b8b55, transparent 45%),
-        linear-gradient(180deg, #100b25 0%, #251044 48%, #8c285e 100%);
-      overflow-x: hidden;
-    }
+    <style>
+        /* =====================================
+           GLOBAL STYLES
+        ===================================== */
 
-    .stars {
-      position: fixed;
-      inset: 0;
-      pointer-events: none;
-      background-image:
-        radial-gradient(2px 2px at 20% 30%, white 50%, transparent 100%),
-        radial-gradient(2px 2px at 80% 20%, white 50%, transparent 100%),
-        radial-gradient(1px 1px at 50% 50%, white 50%, transparent 100%),
-        radial-gradient(2px 2px at 90% 70%, white 50%, transparent 100%),
-        radial-gradient(1px 1px at 10% 80%, white 50%, transparent 100%);
-      background-size: 250px 250px;
-      opacity: .6;
-    }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-    .container {
-      position: relative;
-      z-index: 1;
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      text-align: center;
-      padding: 50px 20px;
-    }
+        :root {
+            --background: #08070d;
+            --pink: #ff3cac;
+            --cyan: #00e5ff;
+            --white: #ffffff;
+            --muted: #85818f;
+        }
 
-    .tag {
-      color: #ff9bd1;
-      letter-spacing: 6px;
-      font-size: 12px;
-      font-weight: bold;
-      margin-bottom: 20px;
-      text-transform: uppercase;
-    }
+        html {
+            scroll-behavior: smooth;
+        }
 
-    h1 {
-      font-size: clamp(65px, 13vw, 125px);
-      font-weight: 900;
-      line-height: .9;
-      letter-spacing: -5px;
-      background: linear-gradient(180deg, #fff 15%, #ffb4d9 55%, #ff55a5 100%);
-      -webkit-background-clip: text;
-      background-clip: text;
-      color: transparent;
-      filter: drop-shadow(0 0 25px #ff4b9b88);
-    }
+        body {
+            min-height: 100vh;
+            min-height: 100svh;
+            background: var(--background);
+            color: var(--white);
+            font-family: Arial, Helvetica, sans-serif;
+            overflow-x: hidden;
+            display: flex;
+            flex-direction: column;
+        }
 
-    .subtitle {
-      font-size: clamp(16px, 3vw, 22px);
-      color: #f8d5ee;
-      letter-spacing: 5px;
-      margin-top: 15px;
-      text-transform: uppercase;
-    }
+        /* =====================================
+           BACKGROUND EFFECTS
+        ===================================== */
 
-    .sun {
-      width: 180px;
-      height: 180px;
-      border-radius: 50%;
-      margin: 45px auto 35px;
-      background: linear-gradient(180deg, #ffe28c, #ff7d8e 65%, #ff4e9c);
-      box-shadow: 0 0 70px #ff729d88;
-      position: relative;
-      overflow: hidden;
-    }
+        .background {
+            position: fixed;
+            inset: 0;
+            z-index: -2;
+            overflow: hidden;
+            background:
+                radial-gradient(
+                    ellipse at 50% 40%,
+                    rgba(111, 24, 91, 0.17),
+                    transparent 55%
+                ),
+                radial-gradient(
+                    ellipse at 15% 85%,
+                    rgba(0, 180, 255, 0.09),
+                    transparent 40%
+                ),
+                #08070d;
+        }
 
-    .sun::after {
-      content: "";
-      position: absolute;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      height: 45%;
-      background: repeating-linear-gradient(
-        to bottom,
-        transparent 0px,
-        transparent 12px,
-        #6e285e 13px,
-        #6e285e 17px
-      );
-    }
+        .glow {
+            position: absolute;
+            width: 450px;
+            height: 450px;
+            border-radius: 50%;
+            filter: blur(130px);
+            opacity: 0.13;
+            animation: float 9s ease-in-out infinite alternate;
+        }
 
-    .countdown {
-      display: flex;
-      justify-content: center;
-      gap: 15px;
-      flex-wrap: wrap;
-      margin: 20px 0;
-    }
+        .glow-pink {
+            background: var(--pink);
+            top: -200px;
+            left: -150px;
+        }
 
-    .time-box {
-      width: 125px;
-      padding: 25px 10px;
-      background: #ffffff12;
-      border: 1px solid #ff9bd166;
-      border-radius: 15px;
-      backdrop-filter: blur(10px);
-      box-shadow: 0 0 25px #ff4b9b22;
-    }
+        .glow-cyan {
+            background: var(--cyan);
+            bottom: -250px;
+            right: -150px;
+            animation-delay: -4s;
+        }
 
-    .number {
-      display: block;
-      font-size: 45px;
-      font-weight: 900;
-      color: #fff;
-      font-variant-numeric: tabular-nums;
-    }
+        @keyframes float {
+            from {
+                transform: translate(0, 0);
+            }
 
-    .label {
-      display: block;
-      color: #ffb8df;
-      font-size: 11px;
-      letter-spacing: 3px;
-      margin-top: 8px;
-    }
+            to {
+                transform: translate(70px, 50px);
+            }
+        }
 
-    .release {
-      margin-top: 30px;
-      color: #ffe0f2;
-      font-size: 15px;
-      letter-spacing: 2px;
-    }
+        /* Subtle background grid */
 
-    .message {
-      margin-top: 25px;
-      font-size: 19px;
-      font-weight: bold;
-      color: #ffd3ec;
-    }
+        .grid {
+            position: fixed;
+            inset: 0;
+            z-index: -1;
+            pointer-events: none;
 
-    footer {
-      margin-top: 65px;
-      color: #ffffff80;
-      font-size: 11px;
-      letter-spacing: 2px;
-      line-height: 1.8;
-    }
+            background-image:
+                linear-gradient(
+                    rgba(255,255,255,0.018) 1px,
+                    transparent 1px
+                ),
+                linear-gradient(
+                    90deg,
+                    rgba(255,255,255,0.018) 1px,
+                    transparent 1px
+                );
 
-    @media (max-width: 600px) {
-      .time-box {
-        width: 42%;
-        max-width: 150px;
-      }
+            background-size: 65px 65px;
 
-      .number {
-        font-size: 35px;
-      }
+            mask-image: linear-gradient(
+                to bottom,
+                transparent,
+                black 25%,
+                black 75%,
+                transparent
+            );
+        }
 
-      .sun {
-        width: 140px;
-        height: 140px;
-      }
-    }
-  </style>
+        /* =====================================
+           MAIN LAYOUT
+        ===================================== */
+
+        main {
+            flex: 1;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 70px 24px 55px;
+            text-align: center;
+        }
+
+        .top-label {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            color: var(--muted);
+            font-size: 10px;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            margin-bottom: 28px;
+            animation: fadeUp 1s ease both;
+        }
+
+        .top-label::before,
+        .top-label::after {
+            content: "";
+            height: 1px;
+            width: 35px;
+            background: linear-gradient(
+                90deg,
+                transparent,
+                var(--pink)
+            );
+        }
+
+        .top-label::after {
+            transform: rotate(180deg);
+        }
+
+        /* =====================================
+           GTA VI TITLE
+        ===================================== */
+
+        .title {
+            position: relative;
+            font-size: clamp(76px, 15vw, 165px);
+            line-height: 0.9;
+            font-weight: 900;
+            letter-spacing: -10px;
+            margin-bottom: 22px;
+
+            background: linear-gradient(
+                135deg,
+                #ffffff 10%,
+                #ffb7e2 38%,
+                #ff3cac 65%,
+                #a855f7 100%
+            );
+
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+
+            filter: drop-shadow(
+                0 0 35px rgba(255, 60, 172, 0.25)
+            );
+
+            animation: titleReveal 1.2s ease both;
+        }
+
+        @keyframes titleReveal {
+            from {
+                opacity: 0;
+                transform: translateY(25px);
+                filter: blur(12px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+                filter: drop-shadow(
+                    0 0 35px rgba(255, 60, 172, 0.25)
+                );
+            }
+        }
+
+        .subtitle {
+            color: #d8d1dc;
+            font-size: 11px;
+            letter-spacing: 6px;
+            font-weight: 500;
+            margin-bottom: 75px;
+            animation: fadeUp 1s 0.3s ease both;
+        }
+
+        /* =====================================
+           COUNTDOWN
+        ===================================== */
+
+        .countdown-container {
+            width: min(850px, 100%);
+            animation: fadeUp 1s 0.5s ease both;
+        }
+
+        .countdown-heading {
+            color: var(--muted);
+            font-size: 10px;
+            letter-spacing: 5px;
+            margin-bottom: 28px;
+            text-transform: uppercase;
+        }
+
+        .countdown {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 16px;
+        }
+
+        .time-box {
+            position: relative;
+            padding: 32px 12px 27px;
+            background: linear-gradient(
+                145deg,
+                rgba(255,255,255,0.045),
+                rgba(255,255,255,0.012)
+            );
+
+            border: 1px solid rgba(255,255,255,0.09);
+            border-radius: 12px;
+
+            box-shadow:
+                0 0 35px rgba(255, 60, 172, 0.035),
+                inset 0 0 25px rgba(255,255,255,0.015);
+
+            backdrop-filter: blur(10px);
+            transition: border-color 0.3s, transform 0.3s;
+            overflow: hidden;
+        }
+
+        .time-box::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 20%;
+            width: 60%;
+            height: 1px;
+
+            background: linear-gradient(
+                90deg,
+                transparent,
+                var(--pink),
+                var(--cyan),
+                transparent
+            );
+
+            opacity: 0.8;
+        }
+
+        .time-box:hover {
+            transform: translateY(-5px);
+            border-color: rgba(255,60,172,0.4);
+        }
+
+        .number {
+            display: block;
+            font-size: clamp(38px, 7vw, 76px);
+            font-weight: 700;
+            letter-spacing: -3px;
+            line-height: 1.1;
+
+            font-variant-numeric: tabular-nums;
+            font-feature-settings: "tnum";
+
+            color: #ffffff;
+
+            text-shadow:
+                0 0 15px rgba(255,60,172,0.25),
+                0 0 35px rgba(0,229,255,0.08);
+
+            transition:
+                opacity 0.12s ease,
+                transform 0.12s ease;
+        }
+
+        .number.changing {
+            opacity: 0.65;
+            transform: translateY(-3px);
+        }
+
+        .unit {
+            display: block;
+            color: var(--muted);
+            font-size: 9px;
+            letter-spacing: 4px;
+            margin-top: 15px;
+            font-weight: 600;
+        }
+
+        /* =====================================
+           RELEASE DATE
+        ===================================== */
+
+        .release-info {
+            margin-top: 55px;
+            animation: fadeUp 1s 0.7s ease both;
+        }
+
+        .release-label {
+            color: var(--muted);
+            font-size: 9px;
+            letter-spacing: 4px;
+            margin-bottom: 12px;
+        }
+
+        .release-date {
+            font-size: 14px;
+            font-weight: 600;
+            letter-spacing: 3px;
+            color: #f5e9f3;
+        }
+
+        .release-date span {
+            color: var(--pink);
+        }
+
+        /* =====================================
+           DECORATIVE LINE
+        ===================================== */
+
+        .bottom-line {
+            width: 90px;
+            height: 2px;
+            margin: 45px auto 0;
+
+            background: linear-gradient(
+                90deg,
+                transparent,
+                var(--pink),
+                var(--cyan),
+                transparent
+            );
+
+            box-shadow: 0 0 15px rgba(255,60,172,0.5);
+        }
+
+        /* =====================================
+           FOOTER
+        ===================================== */
+
+        footer {
+            padding: 25px 15px;
+            text-align: center;
+            border-top: 1px solid rgba(255,255,255,0.055);
+            background: rgba(0,0,0,0.12);
+        }
+
+        footer p {
+            color: #66616e;
+            font-size: 10px;
+            letter-spacing: 0.5px;
+            line-height: 1.8;
+        }
+
+        /* =====================================
+           GENERAL ANIMATIONS
+        ===================================== */
+
+        @keyframes fadeUp {
+            from {
+                opacity: 0;
+                transform: translateY(18px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* =====================================
+           RESPONSIVE DESIGN
+        ===================================== */
+
+        @media (max-width: 600px) {
+
+            main {
+                padding: 65px 18px 45px;
+            }
+
+            .title {
+                letter-spacing: -5px;
+                font-size: clamp(65px, 17vw, 100px);
+            }
+
+            .subtitle {
+                font-size: 9px;
+                letter-spacing: 4px;
+                margin-bottom: 55px;
+            }
+
+            .top-label {
+                font-size: 8px;
+                letter-spacing: 3px;
+            }
+
+            .countdown {
+                gap: 9px;
+            }
+
+            .time-box {
+                padding: 25px 5px 20px;
+                border-radius: 9px;
+            }
+
+            .number {
+                font-size: clamp(30px, 9vw, 48px);
+                letter-spacing: -2px;
+            }
+
+            .unit {
+                font-size: 8px;
+                letter-spacing: 2px;
+                margin-top: 12px;
+            }
+
+            .countdown-heading {
+                font-size: 9px;
+                letter-spacing: 3px;
+            }
+
+            .release-info {
+                margin-top: 45px;
+            }
+
+            .release-date {
+                font-size: 12px;
+                letter-spacing: 2px;
+            }
+        }
+
+        @media (max-width: 350px) {
+            .countdown {
+                gap: 6px;
+            }
+
+            .number {
+                font-size: 27px;
+            }
+
+            .unit {
+                font-size: 7px;
+                letter-spacing: 1px;
+            }
+        }
+
+        /* Accessibility */
+
+        @media (prefers-reduced-motion: reduce) {
+            *,
+            *::before,
+            *::after {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+                scroll-behavior: auto !important;
+            }
+        }
+
+    </style>
 </head>
 
 <body>
-  <div class="stars"></div>
 
-  <main class="container">
-    <div class="tag">The countdown has begun</div>
-
-    <h1>GTA VI</h1>
-    <div class="subtitle">Welcome to Vice City</div>
-
-    <div class="sun"></div>
-
-    <div class="tag">Time until launch</div>
-
-    <div class="countdown" id="countdown">
-      <div class="time-box">
-        <span class="number" id="days">00</span>
-        <span class="label">DAYS</span>
-      </div>
-
-      <div class="time-box">
-        <span class="number" id="hours">00</span>
-        <span class="label">HOURS</span>
-      </div>
-
-      <div class="time-box">
-        <span class="number" id="minutes">00</span>
-        <span class="label">MINUTES</span>
-      </div>
-
-      <div class="time-box">
-        <span class="number" id="seconds">00</span>
-        <span class="label">SECONDS</span>
-      </div>
+    <!-- Background -->
+    <div class="background">
+        <div class="glow glow-pink"></div>
+        <div class="glow glow-cyan"></div>
     </div>
 
-    <div class="release">
-      EXPECTED RELEASE DATE: NOVEMBER 19, 2026
-    </div>
+    <div class="grid"></div>
 
-    <div class="message" id="message">
-      Vice City is waiting for you.
-    </div>
+    <!-- Main Content -->
+    <main>
 
+        <div class="top-label">
+            THE NEXT CHAPTER
+        </div>
+
+        <h1 class="title">
+            GTA VI
+        </h1>
+
+        <p class="subtitle">
+            THE WAIT IS ALMOST OVER
+        </p>
+
+        <!-- Countdown -->
+        <section class="countdown-container">
+
+            <p class="countdown-heading">
+                COUNTING DOWN TO THE RELEASE
+            </p>
+
+            <div class="countdown">
+
+                <div class="time-box">
+                    <span class="number" id="days">000</span>
+                    <span class="unit">DAYS</span>
+                </div>
+
+                <div class="time-box">
+                    <span class="number" id="hours">00</span>
+                    <span class="unit">HOURS</span>
+                </div>
+
+                <div class="time-box">
+                    <span class="number" id="minutes">00</span>
+                    <span class="unit">MINUTES</span>
+                </div>
+
+                <div class="time-box">
+                    <span class="number" id="seconds">00</span>
+                    <span class="unit">SECONDS</span>
+                </div>
+
+            </div>
+
+        </section>
+
+        <!-- Release Date -->
+        <div class="release-info">
+
+            <p class="release-label">
+                OFFICIAL RELEASE DATE
+            </p>
+
+            <p class="release-date">
+                <span>NOVEMBER</span> 19, 2026
+            </p>
+
+        </div>
+
+        <div class="bottom-line"></div>
+
+    </main>
+
+    <!-- Footer -->
     <footer>
-      FAN-MADE COUNTDOWN WEBSITE<br>
-      GRAND THEFT AUTO VI IS A TRADEMARK OF ROCKSTAR GAMES
+        <p>
+            Unofficial fan-made countdown website.
+            Not affiliated with Rockstar Games.
+        </p>
     </footer>
-  </main>
 
-  <script>
-    const launchDate = new Date("2026-11-19T00:00:00").getTime();
 
-    function updateCountdown() {
-      const now = Date.now();
-      const difference = launchDate - now;
+    <!-- =====================================
+         JAVASCRIPT COUNTDOWN
+    ====================================== -->
 
-      if (difference <= 0) {
-        document.getElementById("countdown").style.display = "none";
-        document.getElementById("message").textContent =
-          "GTA VI IS HERE! WELCOME TO VICE CITY!";
-        return;
-      }
+    <script>
 
-      const days = Math.floor(difference / (1000 * 60 * 60 * 24));
-      const hours = Math.floor((difference / (1000 * 60 * 60)) % 24);
-      const minutes = Math.floor((difference / (1000 * 60)) % 60);
-      const seconds = Math.floor((difference / 1000) % 60);
+        // =================================
+        // CONFIGURATION
+        // =================================
 
-      document.getElementById("days").textContent =
-        String(days).padStart(2, "0");
-      document.getElementById("hours").textContent =
-        String(hours).padStart(2, "0");
-      document.getElementById("minutes").textContent =
-        String(minutes).padStart(2, "0");
-      document.getElementById("seconds").textContent =
-        String(seconds).padStart(2, "0");
-    }
+        // November 19, 2026 at midnight
+        // in the visitor's local timezone.
 
-    updateCountdown();
-    setInterval(updateCountdown, 1000);
-  </script>
+        const releaseDate = new Date(
+            2026, 10, 19, 0, 0, 0
+        ).getTime();
+
+
+        // Countdown elements
+
+        const elements = {
+            days: document.getElementById("days"),
+            hours: document.getElementById("hours"),
+            minutes: document.getElementById("minutes"),
+            seconds: document.getElementById("seconds")
+        };
+
+
+        // =================================
+        // FORMAT NUMBERS
+        // =================================
+
+        function formatNumber(number, length) {
+            return String(number).padStart(length, "0");
+        }
+
+
+        // =================================
+        // CALCULATE REAL COUNTDOWN
+        // =================================
+
+        function getCountdown() {
+
+            const now = Date.now();
+
+            let difference = Math.max(
+                0,
+                releaseDate - now
+            );
+
+            const days = Math.floor(
+                difference / (1000 * 60 * 60 * 24)
+            );
+
+            difference %= 1000 * 60 * 60 * 24;
+
+            const hours = Math.floor(
+                difference / (1000 * 60 * 60)
+            );
+
+            difference %= 1000 * 60 * 60;
+
+            const minutes = Math.floor(
+                difference / (1000 * 60)
+            );
+
+            difference %= 1000 * 60;
+
+            const seconds = Math.floor(
+                difference / 1000
+            );
+
+            return {
+                days: formatNumber(days, 3),
+                hours: formatNumber(hours, 2),
+                minutes: formatNumber(minutes, 2),
+                seconds: formatNumber(seconds, 2)
+            };
+        }
+
+
+        // =================================
+        // UPDATE COUNTDOWN
+        // =================================
+
+        function updateCountdown() {
+
+            const time = getCountdown();
+
+            Object.keys(elements).forEach(key => {
+
+                const element = elements[key];
+
+                const newValue = time[key];
+
+                if (element.textContent !== newValue) {
+
+                    element.classList.add("changing");
+
+                    element.textContent = newValue;
+
+                    requestAnimationFrame(() => {
+                        element.classList.remove("changing");
+                    });
+
+                }
+
+            });
+
+        }
+
+
+        // =================================
+        // RANDOM NUMBER SCRAMBLE
+        // =================================
+
+        function scrambleNumbers() {
+
+            const keys = Object.keys(elements);
+
+            keys.forEach(key => {
+                elements[key].textContent =
+                    "0".repeat(key === "days" ? 3 : 2);
+            });
+
+            const scrambleDuration = 1800;
+            const scrambleInterval = 45;
+
+            const startTime = performance.now();
+
+            const interval = setInterval(() => {
+
+                const elapsed = performance.now() - startTime;
+
+                if (elapsed >= scrambleDuration) {
+
+                    clearInterval(interval);
+
+                    // Reveal the real countdown
+                    updateCountdown();
+
+                    // Start the real-time countdown
+                    setInterval(updateCountdown, 1000);
+
+                    return;
+                }
+
+                // Generate random digits
+                keys.forEach(key => {
+
+                    const length = key === "days" ? 3 : 2;
+
+                    let randomValue = "";
+
+                    for (let i = 0; i < length; i++) {
+
+                        randomValue += Math.floor(
+                            Math.random() * 10
+                        );
+
+                    }
+
+                    const element = elements[key];
+
+                    element.classList.add("changing");
+
+                    element.textContent = randomValue;
+
+                    requestAnimationFrame(() => {
+                        element.classList.remove("changing");
+                    });
+
+                });
+
+            }, scrambleInterval);
+
+        }
+
+
+        // =================================
+        // START WEBSITE
+        // =================================
+
+        // Run the intro animation every time
+        // someone opens or refreshes the page.
+
+        scrambleNumbers();
+
+    </script>
+
 </body>
 </html>
