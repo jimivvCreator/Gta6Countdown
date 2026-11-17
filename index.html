@@ -2,782 +2,1193 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <meta name="theme-color" content="#08070d">
-    <meta name="description" content="The ultimate GTA VI countdown. The wait is almost over.">
-
-    <title>GTA VI — The Countdown</title>
-
-    <style>
-        /* =====================================
-           GLOBAL STYLES
-        ===================================== */
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        :root {
-            --background: #08070d;
-            --pink: #ff3cac;
-            --cyan: #00e5ff;
-            --white: #ffffff;
-            --muted: #85818f;
-        }
-
-        html {
-            scroll-behavior: smooth;
-        }
-
-        body {
-            min-height: 100vh;
-            min-height: 100svh;
-            background: var(--background);
-            color: var(--white);
-            font-family: Arial, Helvetica, sans-serif;
-            overflow-x: hidden;
-            display: flex;
-            flex-direction: column;
-        }
-
-        /* =====================================
-           BACKGROUND EFFECTS
-        ===================================== */
-
-        .background {
-            position: fixed;
-            inset: 0;
-            z-index: -2;
-            overflow: hidden;
-            background:
-                radial-gradient(
-                    ellipse at 50% 40%,
-                    rgba(111, 24, 91, 0.17),
-                    transparent 55%
-                ),
-                radial-gradient(
-                    ellipse at 15% 85%,
-                    rgba(0, 180, 255, 0.09),
-                    transparent 40%
-                ),
-                #08070d;
-        }
-
-        .glow {
-            position: absolute;
-            width: 450px;
-            height: 450px;
-            border-radius: 50%;
-            filter: blur(130px);
-            opacity: 0.13;
-            animation: float 9s ease-in-out infinite alternate;
-        }
-
-        .glow-pink {
-            background: var(--pink);
-            top: -200px;
-            left: -150px;
-        }
-
-        .glow-cyan {
-            background: var(--cyan);
-            bottom: -250px;
-            right: -150px;
-            animation-delay: -4s;
-        }
-
-        @keyframes float {
-            from {
-                transform: translate(0, 0);
-            }
-
-            to {
-                transform: translate(70px, 50px);
-            }
-        }
-
-        /* Subtle background grid */
-
-        .grid {
-            position: fixed;
-            inset: 0;
-            z-index: -1;
-            pointer-events: none;
-
-            background-image:
-                linear-gradient(
-                    rgba(255,255,255,0.018) 1px,
-                    transparent 1px
-                ),
-                linear-gradient(
-                    90deg,
-                    rgba(255,255,255,0.018) 1px,
-                    transparent 1px
-                );
-
-            background-size: 65px 65px;
-
-            mask-image: linear-gradient(
-                to bottom,
-                transparent,
-                black 25%,
-                black 75%,
-                transparent
-            );
-        }
-
-        /* =====================================
-           MAIN LAYOUT
-        ===================================== */
-
-        main {
-            flex: 1;
-            width: 100%;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            padding: 70px 24px 55px;
-            text-align: center;
-        }
-
-        .top-label {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            color: var(--muted);
-            font-size: 10px;
-            letter-spacing: 4px;
-            text-transform: uppercase;
-            margin-bottom: 28px;
-            animation: fadeUp 1s ease both;
-        }
-
-        .top-label::before,
-        .top-label::after {
-            content: "";
-            height: 1px;
-            width: 35px;
-            background: linear-gradient(
-                90deg,
-                transparent,
-                var(--pink)
-            );
-        }
-
-        .top-label::after {
-            transform: rotate(180deg);
-        }
-
-        /* =====================================
-           GTA VI TITLE
-        ===================================== */
-
-        .title {
-            position: relative;
-            font-size: clamp(76px, 15vw, 165px);
-            line-height: 0.9;
-            font-weight: 900;
-            letter-spacing: -10px;
-            margin-bottom: 22px;
-
-            background: linear-gradient(
-                135deg,
-                #ffffff 10%,
-                #ffb7e2 38%,
-                #ff3cac 65%,
-                #a855f7 100%
-            );
-
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
-
-            filter: drop-shadow(
-                0 0 35px rgba(255, 60, 172, 0.25)
-            );
-
-            animation: titleReveal 1.2s ease both;
-        }
-
-        @keyframes titleReveal {
-            from {
-                opacity: 0;
-                transform: translateY(25px);
-                filter: blur(12px);
-            }
-
-            to {
-                opacity: 1;
-                transform: translateY(0);
-                filter: drop-shadow(
-                    0 0 35px rgba(255, 60, 172, 0.25)
-                );
-            }
-        }
-
-        .subtitle {
-            color: #d8d1dc;
-            font-size: 11px;
-            letter-spacing: 6px;
-            font-weight: 500;
-            margin-bottom: 75px;
-            animation: fadeUp 1s 0.3s ease both;
-        }
-
-        /* =====================================
-           COUNTDOWN
-        ===================================== */
-
-        .countdown-container {
-            width: min(850px, 100%);
-            animation: fadeUp 1s 0.5s ease both;
-        }
-
-        .countdown-heading {
-            color: var(--muted);
-            font-size: 10px;
-            letter-spacing: 5px;
-            margin-bottom: 28px;
-            text-transform: uppercase;
-        }
-
-        .countdown {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 16px;
-        }
-
-        .time-box {
-            position: relative;
-            padding: 32px 12px 27px;
-            background: linear-gradient(
-                145deg,
-                rgba(255,255,255,0.045),
-                rgba(255,255,255,0.012)
-            );
-
-            border: 1px solid rgba(255,255,255,0.09);
-            border-radius: 12px;
-
-            box-shadow:
-                0 0 35px rgba(255, 60, 172, 0.035),
-                inset 0 0 25px rgba(255,255,255,0.015);
-
-            backdrop-filter: blur(10px);
-            transition: border-color 0.3s, transform 0.3s;
-            overflow: hidden;
-        }
-
-        .time-box::before {
-            content: "";
-            position: absolute;
-            top: 0;
-            left: 20%;
-            width: 60%;
-            height: 1px;
-
-            background: linear-gradient(
-                90deg,
-                transparent,
-                var(--pink),
-                var(--cyan),
-                transparent
-            );
-
-            opacity: 0.8;
-        }
-
-        .time-box:hover {
-            transform: translateY(-5px);
-            border-color: rgba(255,60,172,0.4);
-        }
-
-        .number {
-            display: block;
-            font-size: clamp(38px, 7vw, 76px);
-            font-weight: 700;
-            letter-spacing: -3px;
-            line-height: 1.1;
-
-            font-variant-numeric: tabular-nums;
-            font-feature-settings: "tnum";
-
-            color: #ffffff;
-
-            text-shadow:
-                0 0 15px rgba(255,60,172,0.25),
-                0 0 35px rgba(0,229,255,0.08);
-
-            transition:
-                opacity 0.12s ease,
-                transform 0.12s ease;
-        }
-
-        .number.changing {
-            opacity: 0.65;
-            transform: translateY(-3px);
-        }
-
-        .unit {
-            display: block;
-            color: var(--muted);
-            font-size: 9px;
-            letter-spacing: 4px;
-            margin-top: 15px;
-            font-weight: 600;
-        }
-
-        /* =====================================
-           RELEASE DATE
-        ===================================== */
-
-        .release-info {
-            margin-top: 55px;
-            animation: fadeUp 1s 0.7s ease both;
-        }
-
-        .release-label {
-            color: var(--muted);
-            font-size: 9px;
-            letter-spacing: 4px;
-            margin-bottom: 12px;
-        }
-
-        .release-date {
-            font-size: 14px;
-            font-weight: 600;
-            letter-spacing: 3px;
-            color: #f5e9f3;
-        }
-
-        .release-date span {
-            color: var(--pink);
-        }
-
-        /* =====================================
-           DECORATIVE LINE
-        ===================================== */
-
-        .bottom-line {
-            width: 90px;
-            height: 2px;
-            margin: 45px auto 0;
-
-            background: linear-gradient(
-                90deg,
-                transparent,
-                var(--pink),
-                var(--cyan),
-                transparent
-            );
-
-            box-shadow: 0 0 15px rgba(255,60,172,0.5);
-        }
-
-        /* =====================================
-           FOOTER
-        ===================================== */
-
-        footer {
-            padding: 25px 15px;
-            text-align: center;
-            border-top: 1px solid rgba(255,255,255,0.055);
-            background: rgba(0,0,0,0.12);
-        }
-
-        footer p {
-            color: #66616e;
-            font-size: 10px;
-            letter-spacing: 0.5px;
-            line-height: 1.8;
-        }
-
-        /* =====================================
-           GENERAL ANIMATIONS
-        ===================================== */
-
-        @keyframes fadeUp {
-            from {
-                opacity: 0;
-                transform: translateY(18px);
-            }
-
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        /* =====================================
-           RESPONSIVE DESIGN
-        ===================================== */
-
-        @media (max-width: 600px) {
-
-            main {
-                padding: 65px 18px 45px;
-            }
-
-            .title {
-                letter-spacing: -5px;
-                font-size: clamp(65px, 17vw, 100px);
-            }
-
-            .subtitle {
-                font-size: 9px;
-                letter-spacing: 4px;
-                margin-bottom: 55px;
-            }
-
-            .top-label {
-                font-size: 8px;
-                letter-spacing: 3px;
-            }
-
-            .countdown {
-                gap: 9px;
-            }
-
-            .time-box {
-                padding: 25px 5px 20px;
-                border-radius: 9px;
-            }
-
-            .number {
-                font-size: clamp(30px, 9vw, 48px);
-                letter-spacing: -2px;
-            }
-
-            .unit {
-                font-size: 8px;
-                letter-spacing: 2px;
-                margin-top: 12px;
-            }
-
-            .countdown-heading {
-                font-size: 9px;
-                letter-spacing: 3px;
-            }
-
-            .release-info {
-                margin-top: 45px;
-            }
-
-            .release-date {
-                font-size: 12px;
-                letter-spacing: 2px;
-            }
-        }
-
-        @media (max-width: 350px) {
-            .countdown {
-                gap: 6px;
-            }
-
-            .number {
-                font-size: 27px;
-            }
-
-            .unit {
-                font-size: 7px;
-                letter-spacing: 1px;
-            }
-        }
-
-        /* Accessibility */
-
-        @media (prefers-reduced-motion: reduce) {
-            *,
-            *::before,
-            *::after {
-                animation-duration: 0.01ms !important;
-                animation-iteration-count: 1 !important;
-                transition-duration: 0.01ms !important;
-                scroll-behavior: auto !important;
-            }
-        }
-
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#08070d">
+<meta name="description" content="GTA VI Countdown, facts, characters and everything new in Vice City.">
+
+<title>GTA VI | The Ultimate Countdown</title>
+
+<style>
+:root {
+    --bg: #08070d;
+    --panel: #111019;
+    --pink: #ff3cac;
+    --cyan: #00e5ff;
+    --purple: #9b5cff;
+    --white: #fff;
+    --muted: #9994a3;
+    --border: rgba(255,255,255,.09);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    background: var(--bg);
+    color: var(--white);
+    font-family: Arial, Helvetica, sans-serif;
+    overflow-x: hidden;
+}
+
+a {
+    color: inherit;
+    text-decoration: none;
+}
+
+/* BACKGROUND */
+
+.background {
+    position: fixed;
+    inset: 0;
+    z-index: -2;
+    pointer-events: none;
+    background:
+        radial-gradient(ellipse at 50% 15%, rgba(255,60,172,.13), transparent 45%),
+        radial-gradient(ellipse at 90% 80%, rgba(0,229,255,.08), transparent 40%),
+        var(--bg);
+}
+
+.glow {
+    position: absolute;
+    width: 400px;
+    height: 400px;
+    border-radius: 50%;
+    filter: blur(130px);
+    opacity: .13;
+}
+
+.glow.one {
+    background: var(--pink);
+    top: -200px;
+    left: -150px;
+}
+
+.glow.two {
+    background: var(--cyan);
+    right: -200px;
+    bottom: -200px;
+}
+
+.grid-bg {
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    pointer-events: none;
+    background-image:
+        linear-gradient(rgba(255,255,255,.018) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,.018) 1px, transparent 1px);
+    background-size: 65px 65px;
+}
+
+/* NAVIGATION */
+
+nav {
+    width: 100%;
+    padding: 25px 7%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid var(--border);
+    background: rgba(8,7,13,.65);
+    backdrop-filter: blur(15px);
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 10;
+}
+
+.logo {
+    font-size: 19px;
+    font-weight: 900;
+    letter-spacing: 2px;
+}
+
+.logo span {
+    color: var(--pink);
+}
+
+.nav-links {
+    display: flex;
+    gap: 30px;
+}
+
+.nav-links a {
+    color: var(--muted);
+    font-size: 10px;
+    letter-spacing: 2px;
+    transition: .3s;
+}
+
+.nav-links a:hover {
+    color: var(--pink);
+}
+
+@media(max-width:650px) {
+    nav {
+        padding: 20px 5%;
+    }
+
+    .nav-links {
+        gap: 12px;
+    }
+
+    .nav-links a {
+        font-size: 8px;
+        letter-spacing: 1px;
+    }
+}
+
+/* HERO */
+
+.hero {
+    min-height: 100vh;
+    min-height: 100svh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 120px 20px 65px;
+}
+
+.eyebrow {
+    color: var(--muted);
+    font-size: 10px;
+    letter-spacing: 5px;
+    margin-bottom: 28px;
+}
+
+.hero-title {
+    font-size: clamp(85px, 17vw, 175px);
+    line-height: .9;
+    font-weight: 900;
+    letter-spacing: -10px;
+    background: linear-gradient(
+        135deg,
+        white 10%,
+        #ffb7e2 35%,
+        var(--pink) 65%,
+        var(--purple)
+    );
+    background-clip: text;
+    -webkit-background-clip: text;
+    color: transparent;
+    filter: drop-shadow(0 0 35px rgba(255,60,172,.25));
+}
+
+.hero-subtitle {
+    margin-top: 25px;
+    color: #ded6e2;
+    font-size: 11px;
+    letter-spacing: 6px;
+}
+
+.countdown-area {
+    width: min(850px, 100%);
+    margin-top: 75px;
+}
+
+.section-label {
+    color: var(--muted);
+    font-size: 10px;
+    letter-spacing: 4px;
+    text-align: center;
+    margin-bottom: 25px;
+}
+
+.countdown {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 15px;
+}
+
+.time-box {
+    padding: 30px 10px;
+    border: 1px solid var(--border);
+    background: linear-gradient(145deg, #17131f, #0c0b12);
+    border-radius: 12px;
+    box-shadow: 0 0 30px rgba(255,60,172,.05);
+    position: relative;
+    overflow: hidden;
+}
+
+.time-box::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 20%;
+    width: 60%;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--pink), var(--cyan), transparent);
+}
+
+.number {
+    font-size: clamp(35px, 7vw, 75px);
+    font-weight: 700;
+    font-variant-numeric: tabular-nums;
+    text-shadow: 0 0 20px rgba(255,60,172,.3);
+    transition: opacity .12s, transform .12s;
+}
+
+.number.changing {
+    opacity: .55;
+    transform: translateY(-3px);
+}
+
+.unit {
+    display: block;
+    margin-top: 12px;
+    font-size: 9px;
+    letter-spacing: 3px;
+    color: var(--muted);
+}
+
+.release {
+    margin-top: 45px;
+}
+
+.release small {
+    color: var(--muted);
+    font-size: 9px;
+    letter-spacing: 4px;
+}
+
+.release h3 {
+    margin-top: 12px;
+    font-size: 15px;
+    letter-spacing: 3px;
+}
+
+.release h3 span {
+    color: var(--pink);
+}
+
+.scroll-hint {
+    margin-top: 65px;
+    color: var(--muted);
+    font-size: 9px;
+    letter-spacing: 3px;
+}
+
+/* GENERAL SECTIONS */
+
+section.content-section {
+    padding: 110px 8%;
+    max-width: 1500px;
+    margin: auto;
+}
+
+.section-intro {
+    text-align: center;
+    margin-bottom: 55px;
+}
+
+.section-intro .tag {
+    color: var(--cyan);
+    font-size: 10px;
+    letter-spacing: 4px;
+}
+
+.section-intro h2 {
+    margin-top: 15px;
+    font-size: clamp(30px, 5vw, 48px);
+    letter-spacing: -1px;
+}
+
+.section-intro p {
+    max-width: 550px;
+    margin: 18px auto 0;
+    color: var(--muted);
+    font-size: 14px;
+    line-height: 1.8;
+}
+
+/* FACT CARDS */
+
+.facts-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 18px;
+}
+
+.card {
+    background: linear-gradient(145deg, #17131f, #0d0c13);
+    border: 1px solid var(--border);
+    border-radius: 13px;
+    padding: 30px;
+    transition: .3s;
+    position: relative;
+    overflow: hidden;
+}
+
+.card:hover {
+    transform: translateY(-6px);
+    border-color: rgba(255,60,172,.4);
+    box-shadow: 0 10px 35px rgba(255,60,172,.08);
+}
+
+.card-icon {
+    font-size: 27px;
+    margin-bottom: 22px;
+}
+
+.card h3 {
+    font-size: 17px;
+    margin-bottom: 12px;
+}
+
+.card p {
+    color: var(--muted);
+    font-size: 13px;
+    line-height: 1.8;
+}
+
+/* CHARACTERS */
+
+.characters-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 22px;
+}
+
+.character {
+    min-height: 300px;
+    padding: 35px;
+    border-radius: 15px;
+    border: 1px solid var(--border);
+    background:
+        radial-gradient(ellipse at 90% 10%, rgba(255,60,172,.16), transparent 55%),
+        linear-gradient(145deg, #17131f, #0c0b12);
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    transition: .3s;
+}
+
+.character:nth-child(2) {
+    background:
+        radial-gradient(ellipse at 90% 10%, rgba(0,229,255,.15), transparent 55%),
+        linear-gradient(145deg, #17131f, #0c0b12);
+}
+
+.character:hover {
+    transform: translateY(-5px);
+}
+
+.character .number-label {
+    font-size: 10px;
+    color: var(--pink);
+    letter-spacing: 4px;
+    margin-bottom: 12px;
+}
+
+.character:nth-child(2) .number-label {
+    color: var(--cyan);
+}
+
+.character h3 {
+    font-size: 36px;
+    margin-bottom: 12px;
+}
+
+.character p {
+    color: var(--muted);
+    line-height: 1.8;
+    font-size: 13px;
+    max-width: 400px;
+}
+
+/* COMPARISON */
+
+.comparison {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+}
+
+.compare-card {
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 30px;
+    background: var(--panel);
+}
+
+.compare-card.new {
+    border-color: rgba(255,60,172,.35);
+    box-shadow: 0 0 35px rgba(255,60,172,.06);
+}
+
+.compare-card h3 {
+    font-size: 22px;
+    margin-bottom: 25px;
+}
+
+.compare-card.new h3 {
+    color: var(--pink);
+}
+
+.compare-card.old h3 {
+    color: var(--cyan);
+}
+
+.compare-item {
+    padding: 17px 0;
+    border-bottom: 1px solid var(--border);
+}
+
+.compare-item:last-child {
+    border-bottom: none;
+}
+
+.compare-item strong {
+    display: block;
+    font-size: 12px;
+    margin-bottom: 8px;
+}
+
+.compare-item p {
+    font-size: 12px;
+    line-height: 1.7;
+    color: var(--muted);
+}
+
+/* MAP / WORLD SECTION */
+
+.world-banner {
+    border: 1px solid rgba(0,229,255,.2);
+    border-radius: 16px;
+    padding: 65px 35px;
+    text-align: center;
+    background:
+        radial-gradient(ellipse at 50% 100%, rgba(0,229,255,.13), transparent 60%),
+        radial-gradient(ellipse at 50% 0%, rgba(255,60,172,.13), transparent 60%),
+        #100e18;
+}
+
+.world-banner h3 {
+    font-size: clamp(30px, 5vw, 55px);
+    letter-spacing: 2px;
+    margin-bottom: 20px;
+}
+
+.world-banner p {
+    color: var(--muted);
+    font-size: 14px;
+    line-height: 1.9;
+    max-width: 650px;
+    margin: auto;
+}
+
+.world-tags {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 12px;
+    margin-top: 30px;
+}
+
+.world-tags span {
+    border: 1px solid rgba(0,229,255,.25);
+    border-radius: 30px;
+    padding: 10px 17px;
+    font-size: 10px;
+    letter-spacing: 1px;
+    color: var(--cyan);
+}
+
+/* FACT STRIP */
+
+.fact-strip {
+    margin-top: 25px;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 15px;
+}
+
+.fact-mini {
+    padding: 25px;
+    background: rgba(255,255,255,.025);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    text-align: center;
+}
+
+.fact-mini strong {
+    display: block;
+    color: var(--pink);
+    font-size: 21px;
+    margin-bottom: 10px;
+}
+
+.fact-mini span {
+    color: var(--muted);
+    font-size: 10px;
+    letter-spacing: 1px;
+}
+
+/* NOTE */
+
+.note {
+    max-width: 750px;
+    margin: 35px auto 0;
+    color: var(--muted);
+    text-align: center;
+    font-size: 11px;
+    line-height: 1.8;
+}
+
+/* OFFICIAL LINK */
+
+.official-link {
+    display: inline-block;
+    margin-top: 30px;
+    border: 1px solid rgba(255,60,172,.5);
+    border-radius: 30px;
+    padding: 14px 25px;
+    color: white;
+    font-size: 10px;
+    letter-spacing: 2px;
+    transition: .3s;
+}
+
+.official-link:hover {
+    background: var(--pink);
+    box-shadow: 0 0 25px rgba(255,60,172,.35);
+}
+
+/* FOOTER */
+
+footer {
+    text-align: center;
+    padding: 35px 20px;
+    border-top: 1px solid var(--border);
+    color: #716c79;
+    font-size: 10px;
+    line-height: 2;
+}
+
+footer strong {
+    color: var(--pink);
+}
+
+/* SCROLL REVEAL */
+
+.reveal {
+    opacity: 0;
+    transform: translateY(25px);
+    transition: opacity .8s ease, transform .8s ease;
+}
+
+.reveal.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* RESPONSIVE */
+
+@media(max-width:850px) {
+    .facts-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media(max-width:600px) {
+    .hero-title {
+        letter-spacing: -5px;
+    }
+
+    .hero-subtitle {
+        font-size: 9px;
+        letter-spacing: 4px;
+    }
+
+    .countdown {
+        gap: 7px;
+    }
+
+    .time-box {
+        padding: 22px 4px;
+    }
+
+    .number {
+        font-size: clamp(27px, 8vw, 43px);
+    }
+
+    .unit {
+        font-size: 7px;
+        letter-spacing: 1px;
+    }
+
+    section.content-section {
+        padding: 75px 6%;
+    }
+
+    .facts-grid,
+    .characters-grid,
+    .comparison,
+    .fact-strip {
+        grid-template-columns: 1fr;
+    }
+
+    .character {
+        min-height: 240px;
+    }
+
+    .world-banner {
+        padding: 45px 20px;
+    }
+}
+
+@media(prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+        scroll-behavior: auto !important;
+        animation-duration: .01ms !important;
+        transition-duration: .01ms !important;
+    }
+}
+</style>
 </head>
 
 <body>
 
-    <!-- Background -->
-    <div class="background">
-        <div class="glow glow-pink"></div>
-        <div class="glow glow-cyan"></div>
+<div class="background">
+    <div class="glow one"></div>
+    <div class="glow two"></div>
+</div>
+<div class="grid-bg"></div>
+
+<!-- NAVIGATION -->
+
+<nav>
+    <a href="#" class="logo">GTA <span>VI</span></a>
+
+    <div class="nav-links">
+        <a href="#countdown">COUNTDOWN</a>
+        <a href="#facts">FACTS</a>
+        <a href="#characters">CHARACTERS</a>
+        <a href="#comparison">GTA V VS VI</a>
     </div>
+</nav>
 
-    <div class="grid"></div>
+<!-- HERO / COUNTDOWN -->
 
-    <!-- Main Content -->
-    <main>
+<header class="hero" id="countdown">
 
-        <div class="top-label">
-            THE NEXT CHAPTER
-        </div>
+    <p class="eyebrow">WELCOME TO THE NEXT CHAPTER</p>
 
-        <h1 class="title">
-            GTA VI
-        </h1>
+    <h1 class="hero-title">GTA VI</h1>
 
-        <p class="subtitle">
-            THE WAIT IS ALMOST OVER
-        </p>
+    <p class="hero-subtitle">THE WAIT IS ALMOST OVER</p>
 
-        <!-- Countdown -->
-        <section class="countdown-container">
+    <div class="countdown-area">
 
-            <p class="countdown-heading">
-                COUNTING DOWN TO THE RELEASE
-            </p>
+        <p class="section-label">COUNTING DOWN TO RELEASE</p>
 
-            <div class="countdown">
+        <div class="countdown">
 
-                <div class="time-box">
-                    <span class="number" id="days">000</span>
-                    <span class="unit">DAYS</span>
-                </div>
-
-                <div class="time-box">
-                    <span class="number" id="hours">00</span>
-                    <span class="unit">HOURS</span>
-                </div>
-
-                <div class="time-box">
-                    <span class="number" id="minutes">00</span>
-                    <span class="unit">MINUTES</span>
-                </div>
-
-                <div class="time-box">
-                    <span class="number" id="seconds">00</span>
-                    <span class="unit">SECONDS</span>
-                </div>
-
+            <div class="time-box">
+                <div class="number" id="days">000</div>
+                <span class="unit">DAYS</span>
             </div>
 
-        </section>
+            <div class="time-box">
+                <div class="number" id="hours">00</div>
+                <span class="unit">HOURS</span>
+            </div>
 
-        <!-- Release Date -->
-        <div class="release-info">
+            <div class="time-box">
+                <div class="number" id="minutes">00</div>
+                <span class="unit">MINUTES</span>
+            </div>
 
-            <p class="release-label">
-                OFFICIAL RELEASE DATE
+            <div class="time-box">
+                <div class="number" id="seconds">00</div>
+                <span class="unit">SECONDS</span>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="release">
+        <small>OFFICIAL RELEASE DATE</small>
+        <h3><span>NOVEMBER</span> 19, 2026</h3>
+    </div>
+
+    <p class="scroll-hint">↓ &nbsp; SCROLL TO EXPLORE GTA VI &nbsp; ↓</p>
+
+</header>
+
+<!-- FACTS -->
+
+<section class="content-section" id="facts">
+
+    <div class="section-intro reveal">
+        <span class="tag">01 / THE GAME</span>
+        <h2>Everything You Need To Know</h2>
+        <p>
+            Welcome back to Vice City. Discover the setting,
+            story and details behind Rockstar's next Grand Theft Auto.
+        </p>
+    </div>
+
+    <div class="facts-grid">
+
+        <article class="card reveal">
+            <div class="card-icon">🌴</div>
+            <h3>A New World</h3>
+            <p>
+                GTA VI takes place in Leonida, a fictional state
+                inspired by Florida. Its world includes the famous
+                Vice City and other surrounding regions.
             </p>
+        </article>
 
-            <p class="release-date">
-                <span>NOVEMBER</span> 19, 2026
+        <article class="card reveal">
+            <div class="card-icon">👥</div>
+            <h3>Two Main Characters</h3>
+            <p>
+                Follow Jason Duval and Lucia Caminos as their lives
+                become connected through a dangerous situation
+                and a criminal conspiracy.
             </p>
+        </article>
+
+        <article class="card reveal">
+            <div class="card-icon">📱</div>
+            <h3>Modern Culture</h3>
+            <p>
+                Rockstar's official character descriptions
+                highlight viral videos, social media personalities
+                and the internet culture of modern Leonida.
+            </p>
+        </article>
+
+        <article class="card reveal">
+            <div class="card-icon">🎵</div>
+            <h3>Music & Radio</h3>
+            <p>
+                Rockstar has confirmed in-game radio stations,
+                soundtrack music and an original score.
+            </p>
+        </article>
+
+        <article class="card reveal">
+            <div class="card-icon">🎮</div>
+            <h3>Platforms</h3>
+            <p>
+                The announced launch platforms are
+                PlayStation 5 and Xbox Series X|S.
+            </p>
+        </article>
+
+        <article class="card reveal">
+            <div class="card-icon">🏙️</div>
+            <h3>Return To Vice City</h3>
+            <p>
+                The game brings players back to a modern-day
+                version of Vice City, expanding the setting
+                beyond the city itself.
+            </p>
+        </article>
+
+    </div>
+</section>
+
+<!-- CHARACTERS -->
+
+<section class="content-section" id="characters">
+
+    <div class="section-intro reveal">
+        <span class="tag">02 / THE PROTAGONISTS</span>
+        <h2>Meet Jason & Lucia</h2>
+        <p>
+            Two lives. One story. Get to know the central
+            characters of Grand Theft Auto VI.
+        </p>
+    </div>
+
+    <div class="characters-grid">
+
+        <article class="character reveal">
+            <span class="number-label">01 / PROTAGONIST</span>
+            <h3>Jason Duval</h3>
+            <p>
+                Jason grew up around trouble and spent time in
+                the Army before finding himself in the Florida Keys.
+                Meeting Lucia could change his future.
+            </p>
+        </article>
+
+        <article class="character reveal">
+            <span class="number-label">02 / PROTAGONIST</span>
+            <h3>Lucia Caminos</h3>
+            <p>
+                Lucia has faced plenty of challenges in life.
+                After leaving prison, she's determined to build
+                the future she has always wanted.
+            </p>
+        </article>
+
+    </div>
+</section>
+
+<!-- WORLD -->
+
+<section class="content-section" id="world">
+
+    <div class="section-intro reveal">
+        <span class="tag">03 / EXPLORE LEONIDA</span>
+        <h2>A Whole New Playground</h2>
+        <p>
+            Vice City is just one part of the world waiting
+            to be explored.
+        </p>
+    </div>
+
+    <div class="world-banner reveal">
+
+        <h3>WELCOME TO LEONIDA</h3>
+
+        <p>
+            From neon-lit city streets to coastal landscapes,
+            Rockstar's new setting brings together different
+            locations across a fictional version of Florida.
+        </p>
+
+        <div class="world-tags">
+            <span>VICE CITY</span>
+            <span>LEONIDA KEYS</span>
+            <span>GRASSRIVERS</span>
+            <span>PORT GELLHORN</span>
+            <span>AMBROSIA</span>
+            <span>MOUNT KALAGA</span>
+        </div>
+
+    </div>
+
+    <div class="fact-strip reveal">
+
+        <div class="fact-mini">
+            <strong>FLORIDA</strong>
+            <span>REAL-WORLD INSPIRATION</span>
+        </div>
+
+        <div class="fact-mini">
+            <strong>VICE CITY</strong>
+            <span>THE ICONIC CITY RETURNS</span>
+        </div>
+
+        <div class="fact-mini">
+            <strong>LEONIDA</strong>
+            <span>THE NEW FICTIONAL STATE</span>
+        </div>
+
+    </div>
+</section>
+
+<!-- GTA V VS GTA VI -->
+
+<section class="content-section" id="comparison">
+
+    <div class="section-intro reveal">
+        <span class="tag">04 / THE NEXT GENERATION</span>
+        <h2>GTA V vs GTA VI</h2>
+        <p>
+            How does the next Grand Theft Auto compare
+            with its predecessor?
+        </p>
+    </div>
+
+    <div class="comparison">
+
+        <div class="compare-card old reveal">
+
+            <h3>GTA V</h3>
+
+            <div class="compare-item">
+                <strong>SETTING</strong>
+                <p>Los Santos and Blaine County, San Andreas.</p>
+            </div>
+
+            <div class="compare-item">
+                <strong>PROTAGONISTS</strong>
+                <p>Michael, Franklin and Trevor — three playable main characters.</p>
+            </div>
+
+            <div class="compare-item">
+                <strong>WORLD</strong>
+                <p>A fictional version of Southern California.</p>
+            </div>
+
+            <div class="compare-item">
+                <strong>STORY</strong>
+                <p>Three different lives become connected through a series of events.</p>
+            </div>
+
+            <div class="compare-item">
+                <strong>ATMOSPHERE</strong>
+                <p>Los Santos city life, countryside and the San Andreas landscape.</p>
+            </div>
 
         </div>
 
-        <div class="bottom-line"></div>
+        <div class="compare-card new reveal">
 
-    </main>
+            <h3>GTA VI</h3>
 
-    <!-- Footer -->
-    <footer>
+            <div class="compare-item">
+                <strong>SETTING</strong>
+                <p>Vice City and the wider state of Leonida.</p>
+            </div>
+
+            <div class="compare-item">
+                <strong>PROTAGONISTS</strong>
+                <p>Jason and Lucia — a central duo at the heart of the story.</p>
+            </div>
+
+            <div class="compare-item">
+                <strong>WORLD</strong>
+                <p>A fictional version of Florida, featuring cities, coastal regions and more.</p>
+            </div>
+
+            <div class="compare-item">
+                <strong>STORY</strong>
+                <p>Jason and Lucia navigate a criminal conspiracy and depend on each other.</p>
+            </div>
+
+            <div class="compare-item">
+                <strong>ATMOSPHERE</strong>
+                <p>Modern Vice City, neon nightlife, coastal scenery and internet culture.</p>
+            </div>
+
+        </div>
+
+    </div>
+
+    <p class="note">
+        This comparison focuses on publicly announced story and setting details.
+        Some GTA VI gameplay systems and technical details have not been
+        fully confirmed, so they are intentionally not presented as facts.
+    </p>
+
+</section>
+
+<!-- OFFICIAL INFORMATION -->
+
+<section class="content-section">
+
+    <div class="world-banner reveal">
+
+        <p class="eyebrow">THE NEXT CHAPTER STARTS SOON</p>
+
+        <h3>SEE YOU IN VICE CITY.</h3>
+
         <p>
-            Unofficial fan-made countdown website.
-            Not affiliated with Rockstar Games.
+            Get the latest official information, trailers,
+            screenshots and announcements directly from Rockstar Games.
         </p>
-    </footer>
 
+        <a
+            class="official-link"
+            href="https://www.rockstargames.com/VI"
+            target="_blank"
+            rel="noopener noreferrer"
+        >
+            VISIT ROCKSTAR GAMES ↗
+        </a>
 
-    <!-- =====================================
-         JAVASCRIPT COUNTDOWN
-    ====================================== -->
+    </div>
 
-    <script>
+</section>
 
-        // =================================
-        // CONFIGURATION
-        // =================================
+<!-- FOOTER -->
 
-        // November 19, 2026 at midnight
-        // in the visitor's local timezone.
+<footer>
+    <p>
+        Made for GTA fans, by GTA fans.
+    </p>
+    <p>
+        Unofficial fan-made countdown website.
+        Not affiliated with Rockstar Games.
+    </p>
+    <p>
+        GRAND THEFT AUTO, GTA V and GTA VI are trademarks
+        of their respective owners.
+    </p>
+    <p style="margin-top:12px">
+        <strong>VICE CITY AWAITS.</strong>
+    </p>
+</footer>
 
-        const releaseDate = new Date(
-            2026, 10, 19, 0, 0, 0
-        ).getTime();
+<script>
 
+/* =====================================
+   GTA VI COUNTDOWN
+===================================== */
 
-        // Countdown elements
+// November 19, 2026 at midnight,
+// using each visitor's local timezone.
 
-        const elements = {
-            days: document.getElementById("days"),
-            hours: document.getElementById("hours"),
-            minutes: document.getElementById("minutes"),
-            seconds: document.getElementById("seconds")
-        };
+const releaseDate = new Date(
+    2026, 10, 19, 0, 0, 0
+).getTime();
 
+const elements = {
+    days: document.getElementById("days"),
+    hours: document.getElementById("hours"),
+    minutes: document.getElementById("minutes"),
+    seconds: document.getElementById("seconds")
+};
 
-        // =================================
-        // FORMAT NUMBERS
-        // =================================
+function getCountdown() {
 
-        function formatNumber(number, length) {
-            return String(number).padStart(length, "0");
-        }
+    let difference = Math.max(
+        0,
+        releaseDate - Date.now()
+    );
 
+    const days = Math.floor(
+        difference / 86400000
+    );
 
-        // =================================
-        // CALCULATE REAL COUNTDOWN
-        // =================================
+    difference %= 86400000;
 
-        function getCountdown() {
+    const hours = Math.floor(
+        difference / 3600000
+    );
 
-            const now = Date.now();
+    difference %= 3600000;
 
-            let difference = Math.max(
-                0,
-                releaseDate - now
-            );
+    const minutes = Math.floor(
+        difference / 60000
+    );
 
-            const days = Math.floor(
-                difference / (1000 * 60 * 60 * 24)
-            );
+    difference %= 60000;
 
-            difference %= 1000 * 60 * 60 * 24;
+    const seconds = Math.floor(
+        difference / 1000
+    );
 
-            const hours = Math.floor(
-                difference / (1000 * 60 * 60)
-            );
+    return {
+        days: String(days).padStart(3, "0"),
+        hours: String(hours).padStart(2, "0"),
+        minutes: String(minutes).padStart(2, "0"),
+        seconds: String(seconds).padStart(2, "0")
+    };
+}
 
-            difference %= 1000 * 60 * 60;
+function updateCountdown() {
 
-            const minutes = Math.floor(
-                difference / (1000 * 60)
-            );
+    const values = getCountdown();
 
-            difference %= 1000 * 60;
+    Object.keys(elements).forEach(key => {
 
-            const seconds = Math.floor(
-                difference / 1000
-            );
+        const element = elements[key];
 
-            return {
-                days: formatNumber(days, 3),
-                hours: formatNumber(hours, 2),
-                minutes: formatNumber(minutes, 2),
-                seconds: formatNumber(seconds, 2)
-            };
-        }
+        if (element.textContent !== values[key]) {
 
+            element.classList.add("changing");
+            element.textContent = values[key];
 
-        // =================================
-        // UPDATE COUNTDOWN
-        // =================================
-
-        function updateCountdown() {
-
-            const time = getCountdown();
-
-            Object.keys(elements).forEach(key => {
-
-                const element = elements[key];
-
-                const newValue = time[key];
-
-                if (element.textContent !== newValue) {
-
-                    element.classList.add("changing");
-
-                    element.textContent = newValue;
-
-                    requestAnimationFrame(() => {
-                        element.classList.remove("changing");
-                    });
-
-                }
-
+            requestAnimationFrame(() => {
+                element.classList.remove("changing");
             });
 
         }
+    });
+}
 
+/* =====================================
+   RANDOM NUMBER SCRAMBLE
+===================================== */
 
-        // =================================
-        // RANDOM NUMBER SCRAMBLE
-        // =================================
+function scrambleNumbers() {
 
-        function scrambleNumbers() {
+    const keys = Object.keys(elements);
+    const duration = 1800;
+    const start = performance.now();
 
-            const keys = Object.keys(elements);
+    const interval = setInterval(() => {
 
-            keys.forEach(key => {
-                elements[key].textContent =
-                    "0".repeat(key === "days" ? 3 : 2);
-            });
+        const elapsed = performance.now() - start;
 
-            const scrambleDuration = 1800;
-            const scrambleInterval = 45;
+        if (elapsed >= duration) {
 
-            const startTime = performance.now();
+            clearInterval(interval);
 
-            const interval = setInterval(() => {
+            updateCountdown();
 
-                const elapsed = performance.now() - startTime;
+            // Update at the beginning of each second.
+            const delay = 1000 - (Date.now() % 1000);
 
-                if (elapsed >= scrambleDuration) {
+            setTimeout(() => {
+                updateCountdown();
+                setInterval(updateCountdown, 1000);
+            }, delay);
 
-                    clearInterval(interval);
-
-                    // Reveal the real countdown
-                    updateCountdown();
-
-                    // Start the real-time countdown
-                    setInterval(updateCountdown, 1000);
-
-                    return;
-                }
-
-                // Generate random digits
-                keys.forEach(key => {
-
-                    const length = key === "days" ? 3 : 2;
-
-                    let randomValue = "";
-
-                    for (let i = 0; i < length; i++) {
-
-                        randomValue += Math.floor(
-                            Math.random() * 10
-                        );
-
-                    }
-
-                    const element = elements[key];
-
-                    element.classList.add("changing");
-
-                    element.textContent = randomValue;
-
-                    requestAnimationFrame(() => {
-                        element.classList.remove("changing");
-                    });
-
-                });
-
-            }, scrambleInterval);
-
+            return;
         }
 
+        keys.forEach(key => {
 
-        // =================================
-        // START WEBSITE
-        // =================================
+            const length = key === "days" ? 3 : 2;
 
-        // Run the intro animation every time
-        // someone opens or refreshes the page.
+            let random = "";
 
-        scrambleNumbers();
+            for (let i = 0; i < length; i++) {
+                random += Math.floor(Math.random() * 10);
+            }
 
-    </script>
+            elements[key].textContent = random;
+
+        });
+
+    }, 45);
+}
+
+/* =====================================
+   SCROLL REVEAL ANIMATIONS
+===================================== */
+
+const observer = new IntersectionObserver(
+    (entries) => {
+
+        entries.forEach(entry => {
+
+            if (entry.isIntersecting) {
+
+                entry.target.classList.add("visible");
+
+                observer.unobserve(entry.target);
+            }
+
+        });
+
+    },
+    {
+        threshold: 0.12
+    }
+);
+
+document.querySelectorAll(".reveal").forEach(element => {
+    observer.observe(element);
+});
+
+/* =====================================
+   START
+===================================== */
+
+scrambleNumbers();
+
+</script>
 
 </body>
 </html>
