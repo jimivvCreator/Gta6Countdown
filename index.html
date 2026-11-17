@@ -1,0 +1,271 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#100b25">
+
+  <title>GTA 6 Countdown – How Long Until GTA VI?</title>
+  <meta name="description" content="Countdown to Grand Theft Auto VI! See exactly how many days, hours, minutes and seconds remain until GTA 6 launches on November 19, 2026.">
+  <meta name="keywords" content="GTA 6 countdown, GTA VI release date, Grand Theft Auto 6, GTA 6 release, Vice City">
+  <meta property="og:title" content="GTA 6 Countdown">
+  <meta property="og:description" content="The wait is almost over. Count down to GTA VI!">
+  <meta property="og:type" content="website">
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      min-height: 100vh;
+      font-family: Arial, Helvetica, sans-serif;
+      color: white;
+      background:
+        radial-gradient(ellipse at 50% 85%, #ff4b8b55, transparent 45%),
+        linear-gradient(180deg, #100b25 0%, #251044 48%, #8c285e 100%);
+      overflow-x: hidden;
+    }
+
+    .stars {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      background-image:
+        radial-gradient(2px 2px at 20% 30%, white 50%, transparent 100%),
+        radial-gradient(2px 2px at 80% 20%, white 50%, transparent 100%),
+        radial-gradient(1px 1px at 50% 50%, white 50%, transparent 100%),
+        radial-gradient(2px 2px at 90% 70%, white 50%, transparent 100%),
+        radial-gradient(1px 1px at 10% 80%, white 50%, transparent 100%);
+      background-size: 250px 250px;
+      opacity: .6;
+    }
+
+    .container {
+      position: relative;
+      z-index: 1;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 50px 20px;
+    }
+
+    .tag {
+      color: #ff9bd1;
+      letter-spacing: 6px;
+      font-size: 12px;
+      font-weight: bold;
+      margin-bottom: 20px;
+      text-transform: uppercase;
+    }
+
+    h1 {
+      font-size: clamp(65px, 13vw, 125px);
+      font-weight: 900;
+      line-height: .9;
+      letter-spacing: -5px;
+      background: linear-gradient(180deg, #fff 15%, #ffb4d9 55%, #ff55a5 100%);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      filter: drop-shadow(0 0 25px #ff4b9b88);
+    }
+
+    .subtitle {
+      font-size: clamp(16px, 3vw, 22px);
+      color: #f8d5ee;
+      letter-spacing: 5px;
+      margin-top: 15px;
+      text-transform: uppercase;
+    }
+
+    .sun {
+      width: 180px;
+      height: 180px;
+      border-radius: 50%;
+      margin: 45px auto 35px;
+      background: linear-gradient(180deg, #ffe28c, #ff7d8e 65%, #ff4e9c);
+      box-shadow: 0 0 70px #ff729d88;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .sun::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      height: 45%;
+      background: repeating-linear-gradient(
+        to bottom,
+        transparent 0px,
+        transparent 12px,
+        #6e285e 13px,
+        #6e285e 17px
+      );
+    }
+
+    .countdown {
+      display: flex;
+      justify-content: center;
+      gap: 15px;
+      flex-wrap: wrap;
+      margin: 20px 0;
+    }
+
+    .time-box {
+      width: 125px;
+      padding: 25px 10px;
+      background: #ffffff12;
+      border: 1px solid #ff9bd166;
+      border-radius: 15px;
+      backdrop-filter: blur(10px);
+      box-shadow: 0 0 25px #ff4b9b22;
+    }
+
+    .number {
+      display: block;
+      font-size: 45px;
+      font-weight: 900;
+      color: #fff;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .label {
+      display: block;
+      color: #ffb8df;
+      font-size: 11px;
+      letter-spacing: 3px;
+      margin-top: 8px;
+    }
+
+    .release {
+      margin-top: 30px;
+      color: #ffe0f2;
+      font-size: 15px;
+      letter-spacing: 2px;
+    }
+
+    .message {
+      margin-top: 25px;
+      font-size: 19px;
+      font-weight: bold;
+      color: #ffd3ec;
+    }
+
+    footer {
+      margin-top: 65px;
+      color: #ffffff80;
+      font-size: 11px;
+      letter-spacing: 2px;
+      line-height: 1.8;
+    }
+
+    @media (max-width: 600px) {
+      .time-box {
+        width: 42%;
+        max-width: 150px;
+      }
+
+      .number {
+        font-size: 35px;
+      }
+
+      .sun {
+        width: 140px;
+        height: 140px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="stars"></div>
+
+  <main class="container">
+    <div class="tag">The countdown has begun</div>
+
+    <h1>GTA VI</h1>
+    <div class="subtitle">Welcome to Vice City</div>
+
+    <div class="sun"></div>
+
+    <div class="tag">Time until launch</div>
+
+    <div class="countdown" id="countdown">
+      <div class="time-box">
+        <span class="number" id="days">00</span>
+        <span class="label">DAYS</span>
+      </div>
+
+      <div class="time-box">
+        <span class="number" id="hours">00</span>
+        <span class="label">HOURS</span>
+      </div>
+
+      <div class="time-box">
+        <span class="number" id="minutes">00</span>
+        <span class="label">MINUTES</span>
+      </div>
+
+      <div class="time-box">
+        <span class="number" id="seconds">00</span>
+        <span class="label">SECONDS</span>
+      </div>
+    </div>
+
+    <div class="release">
+      EXPECTED RELEASE DATE: NOVEMBER 19, 2026
+    </div>
+
+    <div class="message" id="message">
+      Vice City is waiting for you.
+    </div>
+
+    <footer>
+      FAN-MADE COUNTDOWN WEBSITE<br>
+      GRAND THEFT AUTO VI IS A TRADEMARK OF ROCKSTAR GAMES
+    </footer>
+  </main>
+
+  <script>
+    const launchDate = new Date("2026-11-19T00:00:00").getTime();
+
+    function updateCountdown() {
+      const now = Date.now();
+      const difference = launchDate - now;
+
+      if (difference <= 0) {
+        document.getElementById("countdown").style.display = "none";
+        document.getElementById("message").textContent =
+          "GTA VI IS HERE! WELCOME TO VICE CITY!";
+        return;
+      }
+
+      const days = Math.floor(difference / (1000 * 60 * 60 * 24));
+      const hours = Math.floor((difference / (1000 * 60 * 60)) % 24);
+      const minutes = Math.floor((difference / (1000 * 60)) % 60);
+      const seconds = Math.floor((difference / 1000) % 60);
+
+      document.getElementById("days").textContent =
+        String(days).padStart(2, "0");
+      document.getElementById("hours").textContent =
+        String(hours).padStart(2, "0");
+      document.getElementById("minutes").textContent =
+        String(minutes).padStart(2, "0");
+      document.getElementById("seconds").textContent =
+        String(seconds).padStart(2, "0");
+    }
+
+    updateCountdown();
+    setInterval(updateCountdown, 1000);
+  </script>
+</body>
+</html>
